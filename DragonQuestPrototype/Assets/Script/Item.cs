@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /// <summary>
@@ -22,7 +22,7 @@ public class Item : MonoBehaviour
     public enum EquipSlots { None, Head, Body, Hands, Feet, LHand, RHand, QSlot1, QSlot2, QSlot3, QSlot4 };
     public string Name
     {
-        get { return name; }
+        get { return itemName; }
     }
     public EquipmentType Slot
     {

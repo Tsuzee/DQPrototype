@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 /// <summary>
@@ -12,6 +12,7 @@ public class Skill : MonoBehaviour {
     private SkillType type;
     private bool learned;
     private bool ableToLearn;
+    private int number;
 
     //public accessors
     public enum SkillType { MeleeWeapon, RangedWeapon, ExtoicWeapon, StandardArmor, HeaveyArmor, CraftItem, CraftWeapon, CraftArmor};
@@ -22,14 +23,20 @@ public class Skill : MonoBehaviour {
     public bool Learned
     {
         get { return learned; }
+        set { learned = value; }
     }
     public bool AbleToLearn
     {
         get { return ableToLearn; }
+        set { ableToLearn = value; }
     }
     public SkillType Type
     {
         get { return type; }
+    }
+    public int Number
+    {
+        get { return number; }
     }
 
     /// <summary>
@@ -38,11 +45,14 @@ public class Skill : MonoBehaviour {
     /// <param name="setName">Name of skill</param>
     /// <param name="setType">Type of skill</param>
     /// <param name="setAbleToLearn">Can the player learn the skill</param>
-    Skill(string setName, SkillType setType, bool setAbleToLearn)
+    /// <param name="setNumber">The order it appears in the skill tree</param>
+    Skill(string setName, SkillType setType, bool setAbleToLearn, int setNumber)
     {
         skillName = setName;
         type = setType;
         learned = false;
         ableToLearn = setAbleToLearn;
+        number = setNumber;
     }//end of skill constructor
+
 }//end skill class
