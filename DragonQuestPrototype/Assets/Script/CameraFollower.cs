@@ -28,7 +28,7 @@ public class CameraFollower : MonoBehaviour
         halfViewSizeY = cam.orthographicSize;
         halfViewSizeX = cam.orthographicSize * cam.aspect;
 
-        mapArea = tileMap.GetMapRect();
+        mapArea = tileMap.GetMapRectInPixelsScaled();
     }
 
     // Update is called once per frame
