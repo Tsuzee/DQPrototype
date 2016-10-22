@@ -14,7 +14,7 @@ public class SkillTree : MonoBehaviour {
     /// <summary>
     /// Create a new skill tree.
     /// </summary>
-    SkillTree()
+    public SkillTree()
     {
         tree = new Dictionary<Skill.SkillType, int>();
         skills = new List<Skill>();
@@ -24,7 +24,7 @@ public class SkillTree : MonoBehaviour {
     /// Add types of skills to the skill tree.
     /// </summary>
     /// <param name="type">Type of skill</param>
-    void AddSkillType(Skill.SkillType type)
+    public void AddSkillType(Skill.SkillType type)
     {
         tree.Add(type, 0);
     }//end add skill type
@@ -33,7 +33,7 @@ public class SkillTree : MonoBehaviour {
     /// Add skills to a list.
     /// </summary>
     /// <param name="skill">Skill</param>
-    void AddSkill(Skill skill)
+    public void AddSkill(Skill skill)
     {
         skills.Add(skill);
     }//end add skill
@@ -42,7 +42,7 @@ public class SkillTree : MonoBehaviour {
     /// Return the current skill tree level for a skill type.
     /// </summary>
     /// <returns>Returns the Dictionary(Skill.SkillType, int) tree</returns>
-    Dictionary<Skill.SkillType, int> GetSkillTree()
+    public Dictionary<Skill.SkillType, int> GetSkillTree()
     {
         return tree;
     }//end get tree
@@ -52,7 +52,7 @@ public class SkillTree : MonoBehaviour {
     /// </summary>
     /// <param name="skill">Skill to try and unlock</param>
     /// <returns>Returns true if unlock was successful</returns>
-    bool Unlock(Skill skill)
+    public bool Unlock(Skill skill)
     {
         if(skill.AbleToLearn)
         {

@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Creates and manages a player inventory.
+/// </summary>
 public class InventoryHandler : MonoBehaviour {
 
     //A list for items in the inventory
@@ -8,12 +11,12 @@ public class InventoryHandler : MonoBehaviour {
     private List<Item> craftables;
     private Dictionary<string, Item> equipedItems;
     private int maxSize;   //max size of inventory    
-    
+
     /// <summary>
     /// Setup an inventory
     /// </summary>
     /// <param name="setSize">Max size of inventory</param>
-    InventoryHandler(int setSize)
+    public InventoryHandler(int setSize)
     {
         maxSize = setSize;
         inventory = new List<Item>();
@@ -35,7 +38,7 @@ public class InventoryHandler : MonoBehaviour {
     /// Add items to inventory
     /// </summary>
     /// <param name="item">Item to add</param>
-    void Add(Item item)
+    public void Add(Item item)
     {
         if(inventory.Count < maxSize)
         {
@@ -47,7 +50,7 @@ public class InventoryHandler : MonoBehaviour {
     /// Remove itmes from inventory
     /// </summary>
     /// <param name="item">Item to remove</param>
-    void Remove(Item item)
+    public void Remove(Item item)
     {
         if (inventory.Count > 0)
         {
@@ -59,7 +62,7 @@ public class InventoryHandler : MonoBehaviour {
     /// Use an item
     /// </summary>
     /// <param name="item">Item to use and remove</param>
-    void Use(Item item)
+    public void Use(Item item)
     {
         //Do thing with item
         
@@ -72,7 +75,7 @@ public class InventoryHandler : MonoBehaviour {
     /// </summary>
     /// <param name="item">Item to equip</param>
     /// <param name="slot">Slot to equip to</param>
-    void Equip(Item item, string slot)
+    public void Equip(Item item, string slot)
     {
         //setup temp for item to be unquiped.
         Item oldItem = equipedItems[slot];
@@ -180,7 +183,7 @@ public class InventoryHandler : MonoBehaviour {
     /// </summary>
     /// <param name="item">Item to unquip</param>
     /// <param name="wasReplaced">Was item replaced by another item</param>
-    void Unquip(Item item, bool wasReplaced)
+    public void Unquip(Item item, bool wasReplaced)
     {
         item.IsEquiped = false;
         if (!wasReplaced)
@@ -194,7 +197,7 @@ public class InventoryHandler : MonoBehaviour {
     /// Get the Item List
     /// </summary>
     /// <returns>Returns List(Item) of items in inventory</returns>
-    List<Item> GetItemList()
+    public List<Item> GetItemList()
     {
         return inventory;
     }//end of get items
@@ -203,7 +206,7 @@ public class InventoryHandler : MonoBehaviour {
     /// Get a dictionary of equiped items
     /// </summary>
     /// <returns>Returns Dictionary(string, Item) of equiped items</returns>
-    Dictionary<string, Item> GetEquipedItems()
+    public Dictionary<string, Item> GetEquipedItems()
     {
         return equipedItems;
     }//end of get equiped items
@@ -212,17 +215,17 @@ public class InventoryHandler : MonoBehaviour {
     /// Get a list of craftable items
     /// </summary>
     /// <returns>Returns List(Item) of craftable items</returns>
-    List<Item> GetCraftingList()
+    public List<Item> GetCraftingList()
     {
         return craftables;
     }//end of get crafting list
 
-	/// <summary>
+    /// <summary>
     /// Craft an item
     /// </summary>
     /// <param name="item">Item to craft</param>
     /// <returns>Returns if crafting was successful</returns>
-    bool Craft(Item item)
+    public bool Craft(Item item)
     {
         //try to craft item, return if successful
         return false;
