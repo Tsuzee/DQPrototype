@@ -48,8 +48,13 @@ namespace UnityStandardAssets._2D
             m_Anim.SetFloat("vSpeed", m_Rigidbody2D.velocity.y);
         }
 
+        //Change the gravity
+        public void ChangeGravity(int g)
+        {
+            m_Rigidbody2D.gravityScale = g;
+        }
 
-        public void Move(float move, bool crouch, bool jump)
+        public void Move(float move, float vert, bool crouch, bool jump)
         {
             // If crouching, check to see if the character can stand up
             if (!crouch && m_Anim.GetBool("Crouch"))
@@ -75,6 +80,12 @@ namespace UnityStandardAssets._2D
 
                 // Move the character
                 m_Rigidbody2D.velocity = new Vector2(move*m_MaxSpeed, m_Rigidbody2D.velocity.y);
+                
+                if(vert != 0)
+                {
+                    m_Anim.SetFloat("Speed", Mathf.Abs(vert));
+                    m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, vert * m_MaxSpeed);
+                }
 
                 // If the input is moving the player right and the player is facing left...
                 if (move > 0 && !m_FacingRight)
