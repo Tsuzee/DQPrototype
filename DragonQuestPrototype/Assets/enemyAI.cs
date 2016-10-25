@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//	Need to make it so that, the dragon doesn't fall through the tunnels and stuff.
+//	Need to make it so that, it stops approaching the player when it is 2 units away from him and tries to breathe fire on him.
+
 public class enemyAI : MonoBehaviour {
 
 //	public Transform Target;
@@ -11,7 +14,7 @@ public class enemyAI : MonoBehaviour {
 
 	private Vector2 dir;
 	private Vector2 newPosition;
-	private bool facingLeft = true;
+	public bool facingLeft = true;
 	
 	
 	// Use this for initialization
