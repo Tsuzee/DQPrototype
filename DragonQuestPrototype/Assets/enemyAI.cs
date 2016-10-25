@@ -53,6 +53,14 @@ public class enemyAI : MonoBehaviour {
 //			Enemy.transform.position.x += dir.y * Speed;
 
 		}
+        if (Range <= 7f)
+        {
+            GetComponent<ShootProjectile>().shouldShoot = true;
+        }
+        else
+        {
+            GetComponent<ShootProjectile>().shouldShoot = false;
+        }
 	}
 
 	void flip(){
@@ -63,4 +71,12 @@ public class enemyAI : MonoBehaviour {
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.collider.tag == "Weapon")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

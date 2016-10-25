@@ -8,12 +8,14 @@ public class FireBall : MonoBehaviour {
 	private Vector2 initialVelocity = new Vector2(5, -1);
 
 	public float projectileDestroyTimer = .5f;
+    public GameObject Player;
 	private float currentTimer = 0.0f;
 	private Rigidbody2D body2D;
 
 	void Awake(){
 //		body2D = GetComponent<Rigidbody2D>;
 		body2D = GetComponent<Rigidbody2D>();
+        Player = GameObject.FindGameObjectWithTag("Player");
 	}
 
 	// Use this for initialization
@@ -30,4 +32,13 @@ public class FireBall : MonoBehaviour {
 			currentTimer += Time.deltaTime;
 		}
 	}
+
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if(other.collider.tag == "Player")
+        {
+            Player.GetComponent<PlayerCombat>().TakeDamage();
+            Destroy(gameObject);
+        }
+    }//end collision check
 }
