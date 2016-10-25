@@ -6,19 +6,23 @@ using System.Collections.Generic;
 /// </summary>
 public class InventoryHandler : MonoBehaviour {
 
+    public delegate void UpdateCallback();
+
     //A list for items in the inventory
     private List<Item> inventory;
     private List<Item> craftables;
     private Dictionary<string, Item> equipedItems;
+    [SerializeField]
     private int maxSize;   //max size of inventory    
+
+    public UpdateCallback InventoryUpdateCallback { get; set; }
+    public UpdateCallback EquipmentUpdateCallback { get; set; }
 
     /// <summary>
     /// Setup an inventory
     /// </summary>
-    /// <param name="setSize">Max size of inventory</param>
-    public InventoryHandler(int setSize)
+    void Awake()
     {
-        maxSize = setSize;
         inventory = new List<Item>();
         craftables = new List<Item>();
         equipedItems = new Dictionary<string, Item>();
@@ -43,6 +47,8 @@ public class InventoryHandler : MonoBehaviour {
         if(inventory.Count < maxSize)
         {
             inventory.Add(item);
+            if (null != InventoryUpdateCallback)
+                InventoryUpdateCallback();
         }
     }//end of add item
 
@@ -55,6 +61,8 @@ public class InventoryHandler : MonoBehaviour {
         if (inventory.Count > 0)
         {
             inventory.Remove(item);
+            if (null != InventoryUpdateCallback)
+                InventoryUpdateCallback();
         }
     }//end of remove item
 
@@ -170,8 +178,15 @@ public class InventoryHandler : MonoBehaviour {
             equipedItems[slot] = item;
             item.IsEquiped = true;
 
+
+            if (null != InventoryUpdateCallback)
+                InventoryUpdateCallback();
+
+            if (null != EquipmentUpdateCallback)
+                EquipmentUpdateCallback();
+
             //if the temp item is not null, unquip it
-            if(oldItem != null)
+            if (oldItem != null)
             {
                 Unquip(oldItem, true);
             }
@@ -183,13 +198,21 @@ public class InventoryHandler : MonoBehaviour {
     /// </summary>
     /// <param name="item">Item to unquip</param>
     /// <param name="wasReplaced">Was item replaced by another item</param>
-    public void Unquip(Item item, bool wasReplaced)
+    public void Unquip(Item item, bool wasReplaced = false)
     {
         item.IsEquiped = false;
         if (!wasReplaced)
         {
             equipedItems[item.EquipedTo.ToString()] = null;
             item.EquipedTo = Item.EquipSlots.None;
+        }
+        else
+        {
+            if (null != InventoryUpdateCallback)
+                InventoryUpdateCallback();
+
+            if (null != EquipmentUpdateCallback)
+                EquipmentUpdateCallback();
         }
     }//end unequip item
 

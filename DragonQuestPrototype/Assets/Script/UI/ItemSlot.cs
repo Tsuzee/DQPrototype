@@ -10,34 +10,46 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public Image Icon { get { return icon; } }
 
-
-    // Use this for initialization
-    void Start()
+    private Item item;
+    public Item Item
     {
+        get { return item; }
+        set
+        {
+            if (item != value)
+            {
+                if (null == value)
+                {
+                    icon.sprite = null;
+                    icon.gameObject.SetActive(false);
+                }
+                else
+                {
+                    icon.sprite = InventoryTextures.Instance.GetItemSprite(value.IconID);
+                    icon.gameObject.SetActive(true);
+                }
+            }
 
+            item = value;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public Item PickUpItem()
     {
-
+        var i = Item;
+        Item = null;
+        return i;
     }
 
-    public void PickUpItem()
+    public void DropItem(Item item)
     {
-        icon.gameObject.SetActive(false);
+        Item = item;
     }
-
-    public void DropItem()
-    {
-        icon.gameObject.SetActive(true);
-    }
-
-
+    
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!icon.IsActive())
+        if (null == Item)
             return;
 
         gameObject.SendMessageUpwards("BeginDragItem", this);

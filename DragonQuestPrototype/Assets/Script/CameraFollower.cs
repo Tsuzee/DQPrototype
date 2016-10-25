@@ -31,7 +31,7 @@ public class CameraFollower : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         float targetX = followee.transform.position.x;
         float targetY = followee.transform.position.y;
@@ -50,11 +50,11 @@ public class CameraFollower : MonoBehaviour
         //float newX = transform.position.x + speedX * Time.fixedDeltaTime;
         //float newY = transform.position.y + speedY * Time.fixedDeltaTime;
 
-        //float newX = Mathf.Lerp(transform.position.x, targetX, Time.fixedDeltaTime * followSpeed);
-        //float newY = Mathf.Lerp(transform.position.y, targetY, Time.fixedDeltaTime * followSpeed);
+        float newX = Mathf.Lerp(transform.position.x, targetX, Time.deltaTime * followSpeed);
+        float newY = Mathf.Lerp(transform.position.y, targetY, Time.deltaTime * followSpeed);
 
-        float newX = targetX;
-        float newY = targetY;
+        //float newX = targetX;
+        //float newY = targetY;
 
         Rect targetRect = new Rect
         {

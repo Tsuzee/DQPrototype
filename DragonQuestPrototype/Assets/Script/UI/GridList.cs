@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GridList : MonoBehaviour
 {
@@ -17,9 +18,11 @@ public class GridList : MonoBehaviour
     [SerializeField]
     private int col;
 
+    private List<GameObject> elements = new List<GameObject>();
 
     void Awake()
     {
+        elements.Clear();
         for (int j = 0; j < row; ++j)
         {
             for (int i = 0; i < col; ++i)
@@ -28,6 +31,7 @@ public class GridList : MonoBehaviour
                 var pos = new Vector3(offset.x + i * stepSize.x, - offset.y - j * stepSize.y);
                 go.transform.localPosition = pos;
                 go.transform.SetParent(transform, false);
+                elements.Add(go);
             }
 
         }
@@ -43,5 +47,27 @@ public class GridList : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public int Count
+    {
+        get { return elements.Count; }
+    }
+
+    public GameObject GetElement(int index)
+    {
+        if (index < 0 || index >= elements.Count)
+            return null;
+
+        return elements[index];
+    }
+
+    public T GetElement<T>(int index)
+    {
+        GameObject go = GetElement(index);
+        if (null == go)
+            return default(T);
+
+        return go.GetComponent<T>();
     }
 }
