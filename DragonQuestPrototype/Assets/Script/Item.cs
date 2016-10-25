@@ -5,10 +5,11 @@ using System.Collections;
 /// Item base class for all in game items.
 /// Defines an item's properties.
 /// </summary>
-public class Item : MonoBehaviour
+public class Item
 {
     //private variables to define items
     private string itemName;
+    private int iconID;
     private EquipmentType slot;
     private float damage;
     private float armor;
@@ -23,6 +24,10 @@ public class Item : MonoBehaviour
     public string Name
     {
         get { return itemName; }
+    }
+    public int IconID
+    {
+        get { return iconID; }
     }
     public EquipmentType Slot
     {
@@ -59,9 +64,10 @@ public class Item : MonoBehaviour
     /// <param name="setDamage">How much damage, zero for non-weapons</param>
     /// <param name="setArmor">How much defense, zero for non-armor</param>
     /// <param name="setHP">How much recovery, zero for non-potions</param>
-    Item(string setName, EquipmentType setSlot, float setDamage, float setArmor, float setHP)
+    public Item(string setName, int setIconID, EquipmentType setSlot, float setDamage, float setArmor, float setHP)
     {
         itemName = setName;
+        iconID = setIconID;
         slot = setSlot;
         damage = setDamage;
         armor = setArmor;

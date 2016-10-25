@@ -7,19 +7,19 @@ public class DraggedItemManager : MonoBehaviour
     private Image draggedItem;
 
     private ItemSlot dragSource = null;
-
-    // TODO Data here
+    private Item draggedItemData = null;
 
     void BeginDragItem(ItemSlot slot)
     {
         if (!dragSource)
         {
             dragSource = slot;
-            draggedItem.gameObject.SetActive(true);
 
             draggedItem.sprite = slot.Icon.sprite;
-            slot.PickUpItem();
+            draggedItem.gameObject.SetActive(true);
 
+            draggedItemData = slot.PickUpItem();
+            
             draggedItem.rectTransform.position = slot.Icon.rectTransform.position;
         }
     }
@@ -28,8 +28,7 @@ public class DraggedItemManager : MonoBehaviour
     {
         if (dragSource)
         {
-            slot.Icon.sprite = draggedItem.sprite;
-            slot.DropItem();
+            slot.DropItem(draggedItemData);
 
             draggedItem.gameObject.SetActive(false);
             dragSource = null;
@@ -48,7 +47,7 @@ public class DraggedItemManager : MonoBehaviour
     {
         if (dragSource)
         {
-            dragSource.DropItem();
+            dragSource.DropItem(draggedItemData);
 
             draggedItem.gameObject.SetActive(false);
             dragSource = null;
