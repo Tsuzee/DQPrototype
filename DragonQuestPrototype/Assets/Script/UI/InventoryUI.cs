@@ -25,12 +25,6 @@ public class InventoryUI : MonoBehaviour
         Refresh();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void Refresh()
     {
         var itemList = inventory.GetItemList();
@@ -43,8 +37,21 @@ public class InventoryUI : MonoBehaviour
             }
             else
             {
-                slot.Item = itemList[i];
+                slot.Item = (itemList[i] == Item.NullItem ? null : itemList[i]);
             }
         }
+    }
+
+    void OnItemPickedUp(Item item)
+    {
+        if (null == item || Item.NullItem == item)
+            return;
+
+        inventory.Remove(item);
+    }
+
+    void OnItemDropped(ItemSlot slot)
+    {
+        inventory.Add(slot.Item, slot.Index);
     }
 }

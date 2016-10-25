@@ -24,6 +24,11 @@ public class InventoryHandler : MonoBehaviour {
     void Awake()
     {
         inventory = new List<Item>();
+        for (int i = 0; i < maxSize; i++)
+        {
+            inventory.Add(Item.NullItem);
+        }
+
         craftables = new List<Item>();
         equipedItems = new Dictionary<string, Item>();
         equipedItems.Add("Head", null);
@@ -42,11 +47,22 @@ public class InventoryHandler : MonoBehaviour {
     /// Add items to inventory
     /// </summary>
     /// <param name="item">Item to add</param>
-    public void Add(Item item)
+    public void Add(Item item, int index = -1)
     {
-        if(inventory.Count < maxSize)
+        if (index < 0 || index > inventory.Count)
         {
-            inventory.Add(item);
+            for (index = 0; index < inventory.Count; index++)
+            {
+                if (inventory[index] == Item.NullItem)
+                {
+                    break;
+                }
+            }
+        }
+
+        if(index >= 0 && index < inventory.Count)
+        {
+            inventory[index] = item;
             if (null != InventoryUpdateCallback)
                 InventoryUpdateCallback();
         }
@@ -60,7 +76,12 @@ public class InventoryHandler : MonoBehaviour {
     {
         if (inventory.Count > 0)
         {
-            inventory.Remove(item);
+            int index = inventory.IndexOf(item);
+            if (index < 0)
+            {
+                return;
+            }
+            inventory[index] = Item.NullItem;
             if (null != InventoryUpdateCallback)
                 InventoryUpdateCallback();
         }
@@ -127,7 +148,7 @@ public class InventoryHandler : MonoBehaviour {
                     }
                 case "LHand":
                     {
-                        if (item.Slot != Item.EquipmentType.Weapon)
+                        if (item.Slot != Item.EquipmentType.Hands)
                         { return; }
                         else
                         { item.EquipedTo = Item.EquipSlots.LHand; }
@@ -135,7 +156,7 @@ public class InventoryHandler : MonoBehaviour {
                     }
                 case "RHand":
                     {
-                        if (item.Slot != Item.EquipmentType.Weapon)
+                        if (item.Slot != Item.EquipmentType.Hands)
                         { return; }
                         else
                         { item.EquipedTo = Item.EquipSlots.RHand; }
@@ -205,9 +226,7 @@ public class InventoryHandler : MonoBehaviour {
         {
             equipedItems[item.EquipedTo.ToString()] = null;
             item.EquipedTo = Item.EquipSlots.None;
-        }
-        else
-        {
+
             if (null != InventoryUpdateCallback)
                 InventoryUpdateCallback();
 

@@ -28,7 +28,11 @@ public class DraggedItemManager : MonoBehaviour
     {
         if (dragSource)
         {
-            slot.DropItem(draggedItemData);
+            if (!slot.DropItem(draggedItemData))
+            {
+                CancelDragItem();
+                return;
+            }
 
             draggedItem.gameObject.SetActive(false);
             dragSource = null;

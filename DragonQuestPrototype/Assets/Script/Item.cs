@@ -19,7 +19,7 @@ public class Item
 
 
     //public accessors
-    public enum EquipmentType { Head, Body, Hands, Feet, Weapon, Component};
+    public enum EquipmentType { None, Head, Body, Hands, Feet, Weapon, Component};
     public enum EquipSlots { None, Head, Body, Hands, Feet, LHand, RHand, QSlot1, QSlot2, QSlot3, QSlot4 };
     public string Name
     {
@@ -76,5 +76,6 @@ public class Item
         equipedTo = EquipSlots.None;
     }//end constructor
 
+    public static readonly Item NullItem = new Item("NULL", 0, EquipmentType.None, 0, 0, 0);
 
 }//end of item class

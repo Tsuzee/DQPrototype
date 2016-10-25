@@ -3,10 +3,19 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, GridListElement
 {
     [SerializeField]
     private Image icon;
+
+    [SerializeField]
+    private Item.EquipmentType filter;
+
+    public Item.EquipmentType Filter
+    {
+        get { return filter; }
+        set { filter = value; }
+    }
 
     public Image Icon { get { return icon; } }
 
@@ -16,7 +25,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         get { return item; }
         set
         {
-            if (item != value)
+            if (item != value && null != icon)
             {
                 if (null == value)
                 {
@@ -33,17 +42,27 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
             item = value;
         }
     }
+    
+    public int Index { get; set; }
 
     public Item PickUpItem()
     {
         var i = Item;
         Item = null;
+        SendMessageUpwards("OnItemPickedUp", i);
         return i;
     }
 
-    public void DropItem(Item item)
+    public bool DropItem(Item item)
     {
+        if (filter != Item.EquipmentType.None)
+        {
+            if (item.Slot != filter)
+                return false;
+        }
         Item = item;
+        SendMessageUpwards("OnItemDropped", this);
+        return true;
     }
     
 
