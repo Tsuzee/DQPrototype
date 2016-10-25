@@ -53,7 +53,6 @@ namespace UnityStandardAssets._2D
         {
             if (trig.tag == "Climbable")
             {
-                Debug.Log("in climbable");
                 isClimbing = true;
                 GetComponent<PlatformerCharacter2D>().ChangeGravity(0);
             }
