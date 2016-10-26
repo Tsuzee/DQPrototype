@@ -2,41 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class EquipmentUI : MonoBehaviour
+public class QuickItemUI : MonoBehaviour
 {
     [SerializeField]
     private InventoryHandler inventory;
 
     [SerializeField]
-    private ItemSlot headSlot;
+    private Item.EquipSlots[] slotTypes;
+
     [SerializeField]
-    private ItemSlot bodySlot;
-    [SerializeField]
-    private ItemSlot feetSlot;
-    [SerializeField]
-    private ItemSlot handRSlot;
-    [SerializeField]
-    private ItemSlot handLSlot;
+    private Item.EquipmentType[] filterTypes;
+
+    private GridList gridList;
 
     private Dictionary<Item.EquipSlots, ItemSlot> slots = new Dictionary<Item.EquipSlots, ItemSlot>();
-
-    void Awake()
-    {
-        slots[Item.EquipSlots.Head] = headSlot;
-        slots[Item.EquipSlots.Body] = bodySlot;
-        slots[Item.EquipSlots.Feet] = feetSlot;
-        slots[Item.EquipSlots.RHand] = handRSlot;
-        slots[Item.EquipSlots.LHand] = handLSlot;
-
-        headSlot.Index = (int)Item.EquipSlots.Head;
-        bodySlot.Index = (int)Item.EquipSlots.Body;
-        feetSlot.Index = (int)Item.EquipSlots.Feet;
-        handRSlot.Index = (int)Item.EquipSlots.RHand;
-        handLSlot.Index = (int)Item.EquipSlots.LHand;
-    }
-
+    
     void OnEnable()
     {
+        gridList = GetComponent<GridList>();
+        gridList.Init();
+        if (slots.Count == 0)
+        {
+            for (int i = 0; i < slotTypes.Length; i++)
+            {
+                slots[slotTypes[i]] = gridList.GetElement<ItemSlot>(i);
+                slots[slotTypes[i]].Index = (int)slotTypes[i];
+                slots[slotTypes[i]].Filter = filterTypes[i];
+            }
+        }
         inventory.EquipmentUpdateCallback += Refresh;
     }
 
@@ -82,5 +75,3 @@ public class EquipmentUI : MonoBehaviour
         inventory.Equip(slot.Item, ((Item.EquipSlots)slot.Index).ToString());
     }
 }
-
-                

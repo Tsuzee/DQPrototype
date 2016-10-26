@@ -22,18 +22,26 @@ public class GridList : MonoBehaviour
 
     void Awake()
     {
+        Init();
+    }
+
+    public void Init()
+    {
+        if (elements.Count > 0)
+            return;
+
         elements.Clear();
         for (int j = 0; j < row; ++j)
         {
             for (int i = 0; i < col; ++i)
             {
                 GameObject go = Instantiate(prefab);
-                var pos = new Vector3(offset.x + i * stepSize.x, - offset.y - j * stepSize.y);
+                var pos = new Vector3(offset.x + i * stepSize.x, -offset.y - j * stepSize.y);
                 go.transform.localPosition = pos;
                 go.transform.SetParent(transform, false);
+                go.GetComponent<GridListElement>().Index = elements.Count;
                 elements.Add(go);
             }
-
         }
     }
 

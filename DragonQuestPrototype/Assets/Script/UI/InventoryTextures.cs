@@ -15,20 +15,9 @@ public class InventoryTextures : MonoBehaviour
 
     public static InventoryTextures Instance { get; private set; }
 
-    void Awake()
+    InventoryTextures()
     {
         Instance = this;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
