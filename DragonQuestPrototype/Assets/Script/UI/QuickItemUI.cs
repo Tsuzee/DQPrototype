@@ -16,7 +16,7 @@ public class QuickItemUI : MonoBehaviour
     private GridList gridList;
 
     private Dictionary<Item.EquipSlots, ItemSlot> slots = new Dictionary<Item.EquipSlots, ItemSlot>();
-    
+
     void OnEnable()
     {
         gridList = GetComponent<GridList>();
@@ -31,14 +31,18 @@ public class QuickItemUI : MonoBehaviour
             }
         }
         inventory.EquipmentUpdateCallback += Refresh;
-        Refresh();
     }
 
     void OnDisable()
     {
         inventory.EquipmentUpdateCallback -= Refresh;
     }
-    
+
+    void Start()
+    {
+        Refresh();
+    }
+
     void Refresh()
     {
         var equips = inventory.GetEquipedItems();
@@ -54,6 +58,14 @@ public class QuickItemUI : MonoBehaviour
                 continue;
             slots[slotType].Item = equip.Value;
         }
+    }
+
+    public bool UseItem(Item.EquipSlots slot)
+    {
+        if (!slots.ContainsKey(slot) || slots[slot].Item == null)
+            return false;
+
+        return inventory.Use(slots[slot].Item);
     }
 
     // Update is called once per frame

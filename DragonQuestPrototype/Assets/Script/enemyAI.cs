@@ -76,7 +76,7 @@ public class enemyAI : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.collider.tag == "Weapon")
+        if(other.collider.tag == "Weapon" || other.collider.tag == "Projectile")
         {
             itemDropper.Drop(new Item(ItemName.Blood, Item.EquipmentType.None, 0, 0, 0));
             Destroy(gameObject);

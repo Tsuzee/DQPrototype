@@ -4,7 +4,8 @@ using System.Collections.Generic;
 /// <summary>
 /// Creates and manages a player inventory.
 /// </summary>
-public class InventoryHandler : MonoBehaviour {
+public class InventoryHandler : MonoBehaviour
+{
 
     public delegate void UpdateCallback();
 
@@ -29,7 +30,7 @@ public class InventoryHandler : MonoBehaviour {
         {
             inventory.Add(Item.NullItem);
         }
-        
+
         equipedItems = new Dictionary<string, Item>();
         equipedItems.Add("Head", null);
         equipedItems.Add("Body", null);
@@ -60,7 +61,7 @@ public class InventoryHandler : MonoBehaviour {
             }
         }
 
-        if(index >= 0 && index < inventory.Count)
+        if (index >= 0 && index < inventory.Count)
         {
             inventory[index] = item;
             if (null != InventoryUpdateCallback)
@@ -98,8 +99,11 @@ public class InventoryHandler : MonoBehaviour {
     {
         if (ItemBehaviour.Instance.UseItem(item.Name))
         {
-            //Then remove item from inventory
-            Remove(item);
+            if (item.Slot == Item.EquipmentType.Component)
+            {
+                //Then remove item from inventory
+                Remove(item);
+            }
             return true;
         }
 
@@ -116,7 +120,7 @@ public class InventoryHandler : MonoBehaviour {
         //setup temp for item to be unquiped.
         Item oldItem = equipedItems[slot];
 
-        if(!item.IsEquiped)
+        if (!item.IsEquiped)
         {
             //safty switch to ensure items match the slot
             switch (slot)
@@ -124,25 +128,25 @@ public class InventoryHandler : MonoBehaviour {
                 case "Head":
                     {
                         if (item.Slot != Item.EquipmentType.Head)
-                             {return;}
+                        { return; }
                         else
-                             {item.EquipedTo = Item.EquipSlots.Head;}
+                        { item.EquipedTo = Item.EquipSlots.Head; }
                         break;
                     }
                 case "Body":
                     {
                         if (item.Slot != Item.EquipmentType.Body)
-                            { return; }
+                        { return; }
                         else
-                            { item.EquipedTo = Item.EquipSlots.Body; }
+                        { item.EquipedTo = Item.EquipSlots.Body; }
                         break;
                     }
                 case "Hands":
                     {
                         if (item.Slot != Item.EquipmentType.Hands)
-                             { return; }
+                        { return; }
                         else
-                              { item.EquipedTo = Item.EquipSlots.Hands; }
+                        { item.EquipedTo = Item.EquipSlots.Hands; }
                         break;
                     }
                 case "Feet":
@@ -308,5 +312,5 @@ public class InventoryHandler : MonoBehaviour {
 
         return true;
     }//end of craft
-	
+
 }//end Inventory Handler class

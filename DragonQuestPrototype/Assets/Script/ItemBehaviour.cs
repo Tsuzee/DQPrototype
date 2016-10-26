@@ -6,7 +6,7 @@ public class ItemBehaviour : MonoBehaviour
 {
     public static ItemBehaviour Instance { get; private set; }
 
-    private delegate bool ItemDelegate(ItemName item);
+    public delegate bool ItemDelegate(ItemTemplate item);
 
     [SerializeField]
     private List<ItemTemplate> itemTemplates;
@@ -17,24 +17,34 @@ public class ItemBehaviour : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        itemBehaviours[ItemName.HealthPotion] = AddPlayerHealth;
 
         foreach (ItemTemplate i in itemTemplates)
         {
             itemTable[i.itemName] = i;
         }
+        
+        RegisterItemBehaviour(ItemName.HealthPotion, AddPlayerHealth);
+    }
+
+    public void RegisterItemBehaviour(ItemName itemName, ItemDelegate behaviour)
+    {
+        if (!itemTable.ContainsKey(itemName))
+        {
+            throw new System.Exception("[ItemBehaviour] Cannot find data of this item.");
+        }
+        itemBehaviours[itemName] = behaviour;
     }
 
     public bool UseItem(ItemName item)
     {
         if (itemBehaviours.ContainsKey(item) && itemBehaviours[item] != null)
         {
-            return itemBehaviours[item](item);
+            return itemBehaviours[item](itemTable[item]);
         }
         return false;
     }
 
-    bool AddPlayerHealth(ItemName item)
+    bool AddPlayerHealth(ItemTemplate item)
     {
         GameObject go = GameObject.FindGameObjectWithTag("Player");
         if (null == go)
@@ -44,7 +54,7 @@ public class ItemBehaviour : MonoBehaviour
         if (null == combat)
             return false;
 
-        combat.Heal(itemTable[item].hp);
+        combat.Heal(item.hp);
 
         return true;
     }

@@ -38,6 +38,9 @@ public class FireBall : MonoBehaviour {
         if(other.collider.tag == "Player")
         {
             Player.GetComponent<PlayerCombat>().TakeDamage();
+        }
+        if (other.collider.tag != "Enemy" && other.collider.tag != tag)
+        {
             Destroy(gameObject);
         }
     }//end collision check
