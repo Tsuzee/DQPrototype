@@ -38,17 +38,12 @@ public class EquipmentUI : MonoBehaviour
     void OnEnable()
     {
         inventory.EquipmentUpdateCallback += Refresh;
+        Refresh();
     }
 
     void OnDisable()
     {
         inventory.EquipmentUpdateCallback -= Refresh;
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        Refresh();
     }
 
     void Refresh()

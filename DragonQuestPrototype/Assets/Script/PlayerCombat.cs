@@ -45,6 +45,11 @@ public class PlayerCombat : MonoBehaviour {
         weapon.SetActive(false);
     }
 
+    public void Heal(float hp)
+    {
+        life = Mathf.Clamp01(life + hp / 100.0f);
+    }
+
     public void TakeDamage()
     {
         life -= 0.2f;

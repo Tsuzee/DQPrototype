@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, GridListElement
+public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerClickHandler, GridListElement
 {
     [SerializeField]
     private Image icon;
@@ -71,24 +71,32 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         if (null == Item)
             return;
 
-        gameObject.SendMessageUpwards("BeginDragItem", this);
+        SendMessageUpwards("BeginDragItem", this);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        gameObject.SendMessageUpwards("UpdateMousePosition");
+        SendMessageUpwards("UpdateMousePosition");
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         if (null == eventData.selectedObject)
         {
-            gameObject.SendMessageUpwards("CancelDragItem");
+            SendMessageUpwards("CancelDragItem");
         }
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        gameObject.SendMessageUpwards("EndDragItem", this);
+        SendMessageUpwards("EndDragItem", this);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.clickCount == 2 && null != Item)
+        {
+            SendMessageUpwards("UseItem", this);
+        }
     }
 }

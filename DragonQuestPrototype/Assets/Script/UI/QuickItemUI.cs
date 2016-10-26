@@ -31,19 +31,14 @@ public class QuickItemUI : MonoBehaviour
             }
         }
         inventory.EquipmentUpdateCallback += Refresh;
+        Refresh();
     }
 
     void OnDisable()
     {
         inventory.EquipmentUpdateCallback -= Refresh;
     }
-
-    // Use this for initialization
-    void Start()
-    {
-        Refresh();
-    }
-
+    
     void Refresh()
     {
         var equips = inventory.GetEquipedItems();

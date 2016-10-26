@@ -11,18 +11,13 @@ public class InventoryUI : MonoBehaviour
     void OnEnable()
     {
         gridList = GetComponent<GridList>();
-        inventory.InventoryUpdateCallback = Refresh;
+        inventory.InventoryUpdateCallback += Refresh;
+        Refresh();
     }
 
     void OnDisable()
     {
-        inventory.InventoryUpdateCallback = null;
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        Refresh();
+        inventory.InventoryUpdateCallback -= Refresh;
     }
 
     void Refresh()
@@ -53,5 +48,10 @@ public class InventoryUI : MonoBehaviour
     void OnItemDropped(ItemSlot slot)
     {
         inventory.Add(slot.Item, slot.Index);
+    }
+
+    void UseItem(ItemSlot slot)
+    {
+        inventory.Use(slot.Item);
     }
 }

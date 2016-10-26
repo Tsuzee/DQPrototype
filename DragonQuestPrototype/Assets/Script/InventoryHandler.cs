@@ -94,12 +94,16 @@ public class InventoryHandler : MonoBehaviour {
     /// Use an item
     /// </summary>
     /// <param name="item">Item to use and remove</param>
-    public void Use(Item item)
+    public bool Use(Item item)
     {
-        //Do thing with item
-        
-        //Then remove item from inventory
-        Remove(item);
+        if (ItemBehaviour.Instance.UseItem(item.Name))
+        {
+            //Then remove item from inventory
+            Remove(item);
+            return true;
+        }
+
+        return false;
     }//end use item
 
     /// <summary>
