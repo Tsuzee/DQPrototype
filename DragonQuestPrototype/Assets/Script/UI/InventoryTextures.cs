@@ -13,6 +13,11 @@ public class InventoryTextures : MonoBehaviour
         return textureList[index];
     }
 
+    public Sprite GetItemSprite(ItemName itemName)
+    {
+        return GetItemSprite((int)itemName);
+    }
+
     public static InventoryTextures Instance { get; private set; }
 
     InventoryTextures()

@@ -24,15 +24,9 @@ public class CraftableItem : MonoBehaviour
 
         set
         {
-            CraftingFormula newFormula = null;
-            if (null != value && value.resultItem >= 0 && value.materialItem1 >= 0)
+            if (formula != value)
             {
-                newFormula = value;
-            }
-
-            if (newFormula != formula)
-            {
-                formula = newFormula;
+                formula = value;
                 UpdateUI();
             }
         }
@@ -40,11 +34,36 @@ public class CraftableItem : MonoBehaviour
 
     private void UpdateUI()
     {
-        // TODO
+        if (null == formula)
+        {
+
+        }
+        else
+        {
+            resultItemIcon.sprite = InventoryTextures.Instance.GetItemSprite(formula.result.itemName);
+            UpdateMaterial(0, formula.material1);
+            UpdateMaterial(1, formula.material2);
+            UpdateMaterial(2, formula.material3);
+        }
+    }
+
+    private void UpdateMaterial(int index, ItemName name)
+    {
+        if (ItemName.Null == name)
+        {
+            materialItems[index].SetActive(false);
+        }
+        else
+        {
+            materialItems[index].SetActive(true);
+            Image icon = materialItems[index].GetComponentInChildren<Image>();
+            icon.sprite = InventoryTextures.Instance.GetItemSprite(name);
+        }
     }
 
     public void OnCraftButton()
     {
-
+        if (null != Formula)
+            SendMessageUpwards("OnCraft", Formula);
     }
 }

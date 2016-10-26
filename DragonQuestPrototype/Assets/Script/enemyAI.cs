@@ -15,7 +15,8 @@ public class enemyAI : MonoBehaviour {
 	private Vector2 dir;
 	private Vector2 newPosition;
 	public bool facingLeft = true;
-	
+
+    private ItemDropper itemDropper;
 	
 	// Use this for initialization
 	void Start () {
@@ -23,8 +24,9 @@ public class enemyAI : MonoBehaviour {
 		Enemy = GameObject.FindGameObjectWithTag ("Enemy");
 		Player = GameObject.FindGameObjectWithTag ("Player");
 
+        itemDropper = GetComponentInChildren<ItemDropper>();
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -76,6 +78,7 @@ public class enemyAI : MonoBehaviour {
     {
         if(other.collider.tag == "Weapon")
         {
+            itemDropper.Drop(new Item(ItemName.Blood, Item.EquipmentType.None, 0, 0, 0));
             Destroy(gameObject);
         }
     }

@@ -10,7 +10,8 @@ public class InventoryHandler : MonoBehaviour {
 
     //A list for items in the inventory
     private List<Item> inventory;
-    private List<Item> craftables;
+    [SerializeField]
+    private List<CraftingFormula> craftables;
     private Dictionary<string, Item> equipedItems;
     [SerializeField]
     private int maxSize;   //max size of inventory    
@@ -28,8 +29,7 @@ public class InventoryHandler : MonoBehaviour {
         {
             inventory.Add(Item.NullItem);
         }
-
-        craftables = new List<Item>();
+        
         equipedItems = new Dictionary<string, Item>();
         equipedItems.Add("Head", null);
         equipedItems.Add("Body", null);
@@ -74,6 +74,9 @@ public class InventoryHandler : MonoBehaviour {
     /// <param name="item">Item to remove</param>
     public void Remove(Item item)
     {
+        if (Item.NullItem == item)
+            return;
+
         if (inventory.Count > 0)
         {
             int index = inventory.IndexOf(item);
@@ -257,20 +260,49 @@ public class InventoryHandler : MonoBehaviour {
     /// Get a list of craftable items
     /// </summary>
     /// <returns>Returns List(Item) of craftable items</returns>
-    public List<Item> GetCraftingList()
+    public List<CraftingFormula> GetCraftingList()
     {
         return craftables;
     }//end of get crafting list
+
+    public Item FindItemByName(ItemName item)
+    {
+        if (ItemName.Null == item)
+            return Item.NullItem;
+
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            if (inventory[i].Name == item)
+                return inventory[i];
+        }
+        return null;
+    }
 
     /// <summary>
     /// Craft an item
     /// </summary>
     /// <param name="item">Item to craft</param>
     /// <returns>Returns if crafting was successful</returns>
-    public bool Craft(Item item)
+    public bool Craft(CraftingFormula formula)
     {
-        //try to craft item, return if successful
-        return false;
+        if (null == formula || !formula.Valid())
+            return false;
+
+        var mat1 = FindItemByName(formula.material1);
+        var mat2 = FindItemByName(formula.material2);
+        var mat3 = FindItemByName(formula.material3);
+
+        if (null == mat1 || null == mat2 || null == mat3)
+        {
+            return false;
+        }
+
+        Remove(mat1);
+        Remove(mat2);
+        Remove(mat3);
+        Add(formula.result.Generate());
+
+        return true;
     }//end of craft
 	
 }//end Inventory Handler class

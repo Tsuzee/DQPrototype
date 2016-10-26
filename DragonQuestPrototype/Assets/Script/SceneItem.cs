@@ -4,14 +4,7 @@ using UnityEngine.UI;
 
 public class SceneItem : MonoBehaviour
 {
-    public bool defaultItem;
-    public string itemName;
-    public int iconID;
-    public Item.EquipmentType itemType;
-    public float damage;
-    public float armaor;
-    public float hp;
-
+    public ItemTemplate template;
 
     private Item item;
     public Item Item
@@ -25,7 +18,7 @@ public class SceneItem : MonoBehaviour
         {
             if (item != value)
             {
-                icon.sprite = InventoryTextures.Instance.GetItemSprite(value.IconID);
+                icon.sprite = InventoryTextures.Instance.GetItemSprite((int)value.Name);
             }
             item = value;
         }
@@ -40,7 +33,8 @@ public class SceneItem : MonoBehaviour
 
     void OnEnable()
     {
-        Item = new Item(itemName, iconID, itemType, damage, armaor, hp);
+        if (null != template)
+            Item = template.Generate();
     }
 
 }

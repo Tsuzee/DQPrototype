@@ -8,8 +8,7 @@ using System.Collections;
 public class Item
 {
     //private variables to define items
-    private string itemName;
-    private int iconID;
+    private ItemName itemName;
     private EquipmentType slot;
     private float damage;
     private float armor;
@@ -21,13 +20,9 @@ public class Item
     //public accessors
     public enum EquipmentType { None, Head, Body, Hands, Feet, Weapon, Component};
     public enum EquipSlots { None, Head, Body, Hands, Feet, LHand, RHand, QSlot1, QSlot2, QSlot3, QSlot4 };
-    public string Name
+    public ItemName Name
     {
         get { return itemName; }
-    }
-    public int IconID
-    {
-        get { return iconID; }
     }
     public EquipmentType Slot
     {
@@ -64,10 +59,9 @@ public class Item
     /// <param name="setDamage">How much damage, zero for non-weapons</param>
     /// <param name="setArmor">How much defense, zero for non-armor</param>
     /// <param name="setHP">How much recovery, zero for non-potions</param>
-    public Item(string setName, int setIconID, EquipmentType setSlot, float setDamage, float setArmor, float setHP)
+    public Item(ItemName setName, EquipmentType setSlot, float setDamage, float setArmor, float setHP)
     {
         itemName = setName;
-        iconID = setIconID;
         slot = setSlot;
         damage = setDamage;
         armor = setArmor;
@@ -76,6 +70,6 @@ public class Item
         equipedTo = EquipSlots.None;
     }//end constructor
 
-    public static readonly Item NullItem = new Item("NULL", 0, EquipmentType.None, 0, 0, 0);
+    public static readonly Item NullItem = new Item(ItemName.Null, EquipmentType.None, 0, 0, 0);
 
 }//end of item class

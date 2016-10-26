@@ -34,7 +34,7 @@ public class ItemSlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 }
                 else
                 {
-                    icon.sprite = InventoryTextures.Instance.GetItemSprite(value.IconID);
+                    icon.sprite = InventoryTextures.Instance.GetItemSprite((int)value.Name);
                     icon.gameObject.SetActive(true);
                 }
             }
