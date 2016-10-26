@@ -7,7 +7,7 @@ using System.Collections;
 public class enemyAI : MonoBehaviour {
 
 //	public Transform Target;
-	private GameObject Enemy;
+	public GameObject Enemy;
 	private GameObject Player;
 	private float Range;
 	public float Speed;
@@ -20,8 +20,6 @@ public class enemyAI : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-
-		Enemy = GameObject.FindGameObjectWithTag ("Enemy");
 		Player = GameObject.FindGameObjectWithTag ("Player");
 
         itemDropper = GetComponentInChildren<ItemDropper>();

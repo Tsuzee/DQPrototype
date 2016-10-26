@@ -18,7 +18,6 @@ namespace UnityStandardAssets._2D
             isClimbing = false;
         }
 
-
         private void Update()
         {
             if (!isClimbing)
@@ -55,6 +54,11 @@ namespace UnityStandardAssets._2D
             {
                 isClimbing = true;
                 GetComponent<PlatformerCharacter2D>().ChangeGravity(0);
+            }
+
+            if(trig.tag == "Dragon")
+            {
+                GetComponent<PlayerCombat>().TakeDamage();
             }
         }//end trigger enter
 
